@@ -5,8 +5,21 @@ alchemist = "42.2.2"
 alchemist = { module = "it.unibo.alchemist:alchemist", version.ref = "alchemist" }
 alchemist-swingui = { module = "it.unibo.alchemist:alchemist-swingui", version.ref = "alchemist" }
 alchemist-incarnation-scafi = { module = "it.unibo.alchemist:alchemist-incarnation-scafi", version.ref = "alchemist"}
+alchemist-smartcam = { module = "it.unibo.alchemist:alchemist-smartcam", version.ref = "alchemist"}
+alchemist-physics = { module = "it.unibo.alchemist:alchemist-physics", version.ref = "alchemist"}
+sttp-core = { module = "com.softwaremill.sttp.client3:core_2.13", version = "3.10.3" }
+ujson = { module = "com.lihaoyi:ujson_2.13", version = "4.0.2" }
+
 [bundles]
-alchemist = ["alchemist", "alchemist-incarnation-scafi", "alchemist-swingui"]
+alchemist = [
+    "alchemist",
+    "alchemist-incarnation-scafi",
+    "alchemist-swingui",
+    "alchemist-smartcam",
+    "alchemist-physics",
+    "sttp-core",
+    "ujson"
+]
 
 [plugins]
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:3.5.1"

@@ -10,4 +10,4 @@ develocity {
     }
 }
 
-rootProject.name = "learning-scafi-alchemist"
+rootProject.name = "fmbp-alchemist"
