@@ -6,11 +6,12 @@ import sttp.client3.{Response, _}
 
 
 class DroneControl extends AggregateProgram
-  with StandardSensors with ScafiAlchemistSupport with BlockG with Gradients with FieldUtils {
+  with StandardSensors with ScafiAlchemistSupport with FieldUtils {
   override def main(): Any = {
     val port = sense[Int]("port")
     var charge = sense[Double]("charge")
     val own_position = currentPosition()
+    val own_id = sense[Int]("id")
 
     if (own_position.x == 0 && own_position.y == 0) {
       if (charge < 100) {charge += 0.2}
@@ -19,6 +20,7 @@ class DroneControl extends AggregateProgram
       charge -= 0.05
     }
     node.put("charge", charge)
+
     var distances: Map[ID, D] = Map.empty
     var directions: Map[ID, P] = Map.empty
     try {
@@ -36,13 +38,18 @@ class DroneControl extends AggregateProgram
     for ((key, value) <- directions) {
       directions_obj.update(key.toString, ujson.Arr(value.x, value.y))
     }
+    val drone_ids = foldhood(Map.empty[ID, Any]) (_ ++ _) {Map(nbr(own_id) -> nbr(mid()))}
+    val drone_ids_obj = ujson.Obj()
+    for ((key, value) <- drone_ids) {
+      drone_ids_obj.update(key.toString, value.toString)
+    }
 
     quickRequest
-      .get(uri"http://localhost:${port}/update/${ujson.write(distances_obj)}/${ujson.write(directions_obj)}/${own_position.x},${own_position.y}/$charge")
+      .get(uri"http://localhost:$port/update/${ujson.write(distances_obj)}/${ujson.write(directions_obj)}/${own_position.x},${own_position.y}/$charge/$drone_ids_obj")
       .send(HttpClientSyncBackend())
 
     val response2: Response[String] = quickRequest
-      .get(uri"http://localhost:${port}/get")
+      .get(uri"http://localhost:$port/get")
       .send(HttpClientSyncBackend())
     val json_content = ujson.read(response2.body).obj
     val target_array = json_content.get("target").get.arr

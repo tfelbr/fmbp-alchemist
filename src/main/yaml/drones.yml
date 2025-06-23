@@ -76,7 +76,19 @@ deployments: ## i.e, how to place nodes
     contents:
       - *drone_contents
       - molecule: port
+        concentration: 8000
+      - molecule: id
+        concentration: 0
+  - type: Circle
+    parameters: [ 1, 0, 0, 20 ]
+    programs:
+      - *drone_programs
+    contents:
+      - *drone_contents
+      - molecule: port
         concentration: 8001
+      - molecule: id
+        concentration: 1
   - type: Circle
     parameters: [ 1, 0, 0, 20 ]
     programs:
@@ -85,6 +97,8 @@ deployments: ## i.e, how to place nodes
       - *drone_contents
       - molecule: port
         concentration: 8002
+      - molecule: id
+        concentration: 2
   - type: Circle
     parameters: [ 1, 0, 0, 20 ]
     programs:
@@ -93,11 +107,5 @@ deployments: ## i.e, how to place nodes
       - *drone_contents
       - molecule: port
         concentration: 8003
-  - type: Circle
-    parameters: [ 1, 0, 0, 20 ]
-    programs:
-      - *drone_programs
-    contents:
-      - *drone_contents
-      - molecule: port
-        concentration: 8004
+      - molecule: id
+        concentration: 3

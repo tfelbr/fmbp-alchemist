@@ -4,7 +4,7 @@ import it.unibo.alchemist.model.scafi.ScafiIncarnationForAlchemist._
 
 
 class PositionSensor extends AggregateProgram
-  with StandardSensors with ScafiAlchemistSupport with BlockG with Gradients with FieldUtils {
+  with StandardSensors with ScafiAlchemistSupport with FieldUtils {
   override def main(): Any = {
     node.put("distances", getDistances)
     node.put("directions", getDirections)
